@@ -4,6 +4,7 @@ import { z } from "zod";
 import { GetUserSchema, UserSchema, CreateUserSchema, UpdateUserSchema } from "@/api/user/userModel";
 import { createApiResponse } from "@/api-docs/openAPIResponseBuilders";
 import { validateRequest } from "@/common/utils/httpHandlers";
+import { authenticateToken } from "@/common/middleware/authMiddleware";
 import { userController } from "./userController";
 
 export const userRegistry = new OpenAPIRegistry();
@@ -19,7 +20,7 @@ userRegistry.registerPath({
 	responses: createApiResponse(z.array(UserSchema), "Success"),
 });
 
-userRouter.get("/", userController.getUsers);
+userRouter.get("/", authenticateToken, userController.getUsers);
 
 // GET /users/count - Get user count
 userRegistry.registerPath({
