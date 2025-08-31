@@ -77,7 +77,7 @@ export class UserRepository {
 
 	private mapToUser(userDoc: IUser): User {
 		return {
-			id: userDoc._id.toString(),
+			id: userDoc._id?.toString() || userDoc.id,
 			name: userDoc.name,
 			email: userDoc.email,
 			age: userDoc.age,
